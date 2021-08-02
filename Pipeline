@@ -3,10 +3,8 @@ pipeline {
   stages {
     stage('Test') {
       steps {
-        sh '''
-          git --version
-          curl --version
-        '''
+        def newApp = docker.build "weburnit/hello-world:${env.BUILD_TAG}"
+        newApp.push()
       }
     }
   }
