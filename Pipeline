@@ -1,7 +1,7 @@
 pipeline {
   agent { dockerfile true }
   stages {
-    stage('Test') {
+    stage('Release Image') {
       steps {
         def newApp = docker.build "weburnit/hello-world:${env.BUILD_TAG}"
         newApp.push()
