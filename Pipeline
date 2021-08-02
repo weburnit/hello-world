@@ -31,7 +31,7 @@ pipeline {
     stage('Update Helm') {
       steps{
           sh '''
-          helm upgrade --install ${SERVICE_NAME} lancar/go-base -set image.repository=$registry -set image.tag=$BUILD_NUMBER
+          helm upgrade --install ${SERVICE_NAME} lancar/go-base --set image.repository=$registry --set image.tag=$BUILD_NUMBER
           '''
       }
     }
