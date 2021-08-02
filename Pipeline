@@ -4,9 +4,10 @@ pipeline {
     stage('Test') {
       steps {
         sh '''
-          node --version
+          docker build . -t weburnit/hello-world:jenkins
           git --version
           curl --version
+          docker push weburnit/hello-world:jenkins
         '''
       }
     }
