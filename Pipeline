@@ -1,12 +1,31 @@
 pipeline {
-  agent { dockerfile true }
+  environment {
+    registry = "weburnit/hello-world"
+    registryCredential = 'weburnit'
+    dockerImage = ''
+  }
+  agent any
   stages {
-    stage('Release Image') {
-      steps {
+
+    stage('Building image') {
+      steps{
         script {
-            def newApp = docker.build "weburnit/hello-world:${env.BUILD_TAG}"
-            newApp.push()
+          dockerImage = docker.build registry + ":$BUILD_NUMBER"
         }
+      }
+    }
+    stage('Deploy Image') {
+      steps{
+        script {
+          docker.withRegistry( '', registryCredential ) {
+            dockerImage.push()
+          }
+        }
+      }
+    }
+    stage('Remove Unused docker image') {
+      steps{
+        sh "docker rmi $registry:$BUILD_NUMBER"
       }
     }
   }
