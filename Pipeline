@@ -3,8 +3,10 @@ pipeline {
   stages {
     stage('Release Image') {
       steps {
-        newApp = docker.build "weburnit/hello-world:${env.BUILD_TAG}"
-        newApp.push()
+        script {
+            def newApp = docker.build "weburnit/hello-world:${env.BUILD_TAG}"
+            newApp.push()
+        }
       }
     }
   }
