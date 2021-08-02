@@ -22,7 +22,8 @@ import (
 	"os"
 )
 
-const Hello = "v1: Hello world!"
+const Hello = "v2: Hello world!"
+
 func main() {
 	http.HandleFunc("/", handle)
 	port := os.Getenv("PORT")
