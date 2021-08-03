@@ -31,6 +31,8 @@ pipeline {
     stage('Update Helm') {
       steps{
           sh '''
+          ls -la
+          git status
           helm upgrade --install ${SERVICE_NAME} lancar/go-base --set image.repository=$registry --set image.tag=$BUILD_NUMBER --set fullnameOverride=${SERVICE_NAME}-golang
           '''
       }
