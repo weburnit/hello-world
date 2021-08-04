@@ -3,6 +3,8 @@ pipeline {
     registry = "weburnit/hello-world"
     registryCredential = 'weburnit'
     dockerImage = ''
+    helmReleaseNoteRegistry = 'weburnit/hello-world-release'
+    helmReleaseNote = 'lancar-helm-museum/release-notes'
   }
   agent any
   stages {
@@ -14,7 +16,7 @@ pipeline {
     stage('Building image') {
       steps{
         script {
-          dockerImage = docker.build registry + ":$BUILD_NUMBER"
+          dockerImage = docker.build registry + ":$BUILD_TAG"
         }
       }
     }
@@ -31,7 +33,7 @@ pipeline {
       steps{
         script {
             def dockerfile = 'Docs.Dockerfile'
-            def docsImage = docker.build("${registry}:${SERVICE_NAME}-docs-${env.BUILD_ID}", "-f ${dockerfile} .")
+            def docsImage = docker.build("${helmReleaseNoteRegistry}:${env.BUILD_TAG}", "-f ${dockerfile} .")
 
             docker.withRegistry( '', registryCredential ) {
                 docsImage.push()
@@ -41,15 +43,20 @@ pipeline {
     }
     stage('Remove Unused docker image') {
       steps{
-        sh "docker rmi $registry:$BUILD_NUMBER"
+        sh "docker rmi $registry:$BUILD_TAG"
       }
     }
     stage('Update Helm') {
       steps{
           sh '''
-          ls -la
-          git status
-          helm upgrade --install ${SERVICE_NAME} lancar-helm-museum/go-base --set image.repository=$registry --set image.tag=$BUILD_NUMBER --set fullnameOverride=${SERVICE_NAME}-golang
+          helm upgrade --install ${SERVICE_NAME} lancar-helm-museum/go-base --set image.repository=$registry --set image.tag=$BUILD_TAG --set fullnameOverride=${SERVICE_NAME}-golang
+          '''
+      }
+    }
+    stage('Update Helm Release Note service') {
+      steps{
+          sh '''
+          helm upgrade --install ${SERVICE_NAME}-release-notes $helmReleaseNote --set image.repository=${helmReleaseNoteRegistry} --set image.tag=$BUILD_TAG --set fullnameOverride=${SERVICE_NAME}-release-notes
           '''
       }
     }
