@@ -1,0 +1,194 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "Sample",
+    "version": "version not set"
+  },
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "paths": {
+    "/v1/version": {
+      "get": {
+        "summary": "Version",
+        "operationId": "Sample Service_Version",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/pbVersionResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/runtimeError"
+            }
+          }
+        },
+        "tags": [
+          "Sample Service"
+        ]
+      }
+    }
+  },
+  "definitions": {
+    "Object": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "alias": {
+          "type": "string"
+        },
+        "today": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "yesterday": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "lastWeek": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "scope": {
+          "type": "string"
+        }
+      }
+    },
+    "ObjectLastItem": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "ID": {
+          "type": "string"
+        },
+        "channel": {
+          "type": "string"
+        },
+        "lastDayUsers": {
+          "type": "integer",
+          "format": "int32"
+        }
+      }
+    },
+    "ObjectLast": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "ID": {
+          "type": "string"
+        },
+        "lastDayUsers": {
+          "type": "integer",
+          "format": "int32"
+        }
+      }
+    },
+    "ObjectSource": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "ID": {
+          "type": "string"
+        },
+        "source_type": {
+          "type": "string"
+        },
+        "users": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "source_key": {
+          "type": "string"
+        },
+        "events": {
+          "type": "integer",
+          "format": "int32"
+        }
+      }
+    },
+    "pbObject": {
+      "type": "object",
+      "properties": {
+        "sources": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ObjectSource"
+          }
+        },
+        "events": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Object"
+          }
+        },
+        "segments": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ObjectLast"
+          }
+        },
+        "campaigns": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ObjectLastItem"
+          }
+        }
+      }
+    },
+    "pbVersionResponse": {
+      "type": "object",
+      "properties": {
+        "value": {
+          "type": "string"
+        }
+      }
+    },
+    "protobufAny": {
+      "type": "object",
+      "properties": {
+        "type_url": {
+          "type": "string"
+        },
+        "value": {
+          "type": "string",
+          "format": "byte"
+        }
+      }
+    },
+    "runtimeError": {
+      "type": "object",
+      "properties": {
+        "error": {
+          "type": "string"
+        },
+        "code": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "message": {
+          "type": "string"
+        },
+        "details": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/protobufAny"
+          }
+        }
+      }
+    }
+  }
+}
