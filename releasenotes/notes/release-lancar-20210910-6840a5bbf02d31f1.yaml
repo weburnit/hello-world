@@ -1,0 +1,6 @@
+features:
+  - |
+    Jenkins with helm-release-notes
+issues:
+  - |
+    hot fix jenkins tags
