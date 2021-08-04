@@ -3,7 +3,7 @@ pipeline {
     registry = "weburnit/hello-world"
     registryCredential = 'weburnit'
     dockerImage = ''
-    helmReleaseNoteRegistry = 'weburnit/hello-world-release'
+    helmReleaseNoteRegistry = 'weburnit/hello-world-release-notes'
     helmReleaseNote = 'lancar-helm-museum/release-notes'
   }
   agent any
@@ -29,7 +29,7 @@ pipeline {
         }
       }
     }
-    stage('Building Release image') {
+    stage('Building Release Notes image') {
       steps{
         script {
             def dockerfile = 'Docs.Dockerfile'
