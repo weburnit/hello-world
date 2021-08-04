@@ -2,6 +2,6 @@
     Release notes
 =================
 .. release-notes::
-    :branch: main
+    :branch: master
     :earliest-version: 0.1.1
 
