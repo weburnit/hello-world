@@ -4,8 +4,8 @@ WORKDIR /docs
 
 COPY .. /
 ENV PBR_VERSION=5.6.0
-RUN cat /docs/Makefile
 RUN pip3 install -r /docs/requirements.txt
+RUN reno --rel-notes-dir releasenotes report
 
 RUN cd /docs && make html
 
