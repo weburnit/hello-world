@@ -27,6 +27,18 @@ pipeline {
         }
       }
     }
+    stage('Building Release image') {
+      steps{
+        script {
+            def dockerfile = 'Docs.Dockerfile'
+            def docsImage = docker.build("${registry}:${SERVICE_NAME}-docs-${env.BUILD_ID}", "-f ${dockerfile} .")
+
+            docker.withRegistry( '', registryCredential ) {
+                docsImage.push()
+            }
+        }
+      }
+    }
     stage('Remove Unused docker image') {
       steps{
         sh "docker rmi $registry:$BUILD_NUMBER"
