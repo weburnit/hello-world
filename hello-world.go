@@ -22,7 +22,7 @@ import (
 	"os"
 )
 
-const Hello = "v3-jenkins: Hello world!"
+const Hello = "v3-Paul vs Aditya: Hello Thommy!"
 
 func main() {
 	http.HandleFunc("/", handle)
